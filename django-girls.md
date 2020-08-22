@@ -1,0 +1,1 @@
+../django-girls/django-girls.md
