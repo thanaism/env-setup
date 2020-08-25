@@ -10,7 +10,13 @@ $ brew install pypy3
 $ pypy3 -m pip install online-judge-tools
 
 # set PATH to use ojt
-$ export PATH=$PATH:/usr/local/share/pypy3
+$ open ~/.zshrc
+export PATH="$PATH:/usr/local/share/pypy3"
+
+#install GNU time to show memory assumption
+$ brew install gnu-time
+$ open ~/.zshrc
+export PATH="/usr/local/opt/gnu-time/libexec/gnubin:$PATH"
 
 # login to atcoder
 $ oj login -u {username} -p {password} "https://atcoder.jp/"
