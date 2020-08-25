@@ -53,7 +53,7 @@ automating;
 
 
 ```sh
-#!/bin/bash
+#!/bin/zsh
 
 problem_name=$1
 test_dir=test/${problem_name}
@@ -64,8 +64,45 @@ if [ ! -e ${test_dir} ]; then
     oj dl -d test/${problem_name} https://atcoder.jp/contests/${base_url}/tasks/${problem_name//-/_}
 fi
 
-oj test -c "python3 problems/${problem_name}.py" -d test/${problem_name}
+if [ $# = 2 ];then
+    script_name=$2
+    oj test -c "pypy3 ${script_name}.py" -d test/${problem_name//-/_}
+else
+    oj test -c "pypy3 ${problem_name}.py" -d test/${problem_name//-/_}
+fi
 ```
+
+### chmod is needed
+```
+> Executing task: /Users/thanai/git/online-judge/atcoder-python/cptest.sh abc157_b <
+
+zsh:1: permission denied: /Users/thanai/git/online-judge/atcoder-python/cptest.sh
+ターミナル プロセス "/bin/zsh '-c', '/Users/thanai/git/online-judge/atcoder-python/cptest.sh abc157_b'" が起動に失敗しました (終了コード: 126)。
+
+ターミナルはタスクで再利用されます、閉じるには任意のキーを押してください。
+```
+
+You can avoid this problem as below;
+```bash
+# 実行権限の付与
+$ chmod +x cptest.sh
+```
+
+### 引数の意味
+|記号|	意味|
+|-|-|
+|u|	所有者の権限|
+|g|	グループの権限|
+|o|	その他のユーザーの権限|
+|a|	すべての権限|
+|+|	後に記述した権限を付加する|
+|-|	後に記述した権限を削除する|
+|=|	後に記述した権限にする|
+|r|	読み込み権限|
+|w|	書き込み権限|
+|x|	実行権限|
+|s|	セットID|
+|t|	スティッキ・ビット|
 
 
 ```json
@@ -82,6 +119,7 @@ oj test -c "python3 problems/${problem_name}.py" -d test/${problem_name}
             "command": "${workspaceFolder}/cptest.sh",
             "args": [
                 "${fileBasenameNoExtension}"
+                ]
         }
     ]
 }
