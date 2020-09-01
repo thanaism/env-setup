@@ -36,3 +36,7 @@ Local;
 ```
 % git stash pop @{$INDEX}
 ```
+
+## git checkout -
+
+you can switch branch to previous one.
