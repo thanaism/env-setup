@@ -106,11 +106,11 @@ Django では`templates`内に html を記述していく。
     <title>Document</title>
   </head>
   <body>
-    <h1>ワークスペースにBotを追加する</h1>
+    <h1>Add bot to your workspace</h1>
     <a
       href="https://slack.com/oauth/authorize?scope=bot&client_id={{ client_id }}"
     >
-      Botを追加
+      Add bot
     </a>
   </body>
 </html>
@@ -169,9 +169,9 @@ def oauth(request: HttpRequest) -> HttpResponse:
     )
 
     if response['ok']:
-        return HttpResponse('ボットがワークスペースに参加しました！')
+        return HttpResponse('Your bot joined your workspace!')
     else:
-        return HttpResponse('失敗しました！リトライしてね！')
+        return HttpResponse('Failed! Please retry.')
 ```
 
 ここで、上記の REST 処理に必要な API キーを`config/setting.py`に入れたいので、
@@ -301,50 +301,11 @@ class Events(APIView):
 
 
 def index(request: HttpRequest) -> HttpResponse:
-    context = {"client_id": SLACK_CLIENT_ID}
-    return render(request, "slack/index.html", context)
+    ...
 
 
 def oauth(request: HttpRequest) -> HttpResponse:
-    """
-    == Send Request ==
-    requests.get(url, {
-        "code": "xxx",
-        "client_id": "xxx",
-        "client_secret": "xxx"
-    })
-
-    == Response ==
-    {
-        'ok': True,
-        'access_token':
-        'xoxp-xxx',
-        'scope': 'xxx, yyy',
-        'user_id': 'xxx',
-        'team_id': 'xxx',
-        'enterprise_id': None,
-        'team_name': 'xxx',
-        'bot': {
-            'bot_user_id': 'xxx',
-            'bot_access_token': 'xxx'
-        }
-    }
-    """
-    response = json.loads(
-        requests.get(
-            "https://slack.com/api/oauth.access",
-            params={
-                "code": request.GET.get("code"),
-                "client_id": SLACK_CLIENT_ID,
-                "client_secret": SLACK_CLIENT_SECRET,
-            },
-        ).text
-    )
-
-    if response["ok"]:
-        return HttpResponse("ボットがワークスペースに参加しました！")
-    else:
-        return HttpResponse("失敗しました！リトライしてね！")
+    ...
 ```
 
 いま追加した POST 処理に対するルーティングを追加しておく。
